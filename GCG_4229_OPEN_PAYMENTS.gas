@@ -1,0 +1,356 @@
+Program.Sub.ScreenSU.Start
+gui.SS_Form1..create
+gui.SS_Form1..caption("Open Payments by Name")
+gui.SS_Form1..size(4135,2825)
+gui.SS_Form1..position(0,0)
+gui.SS_Form1..alwaysontop(False)
+gui.SS_Form1..fontname("Arial")
+gui.SS_Form1..fontsize(8)
+gui.SS_Form1..forecolor(0)
+gui.SS_Form1..fontstyle(,,,,)
+gui.SS_Form1..BackColor(-2147483633)
+gui.SS_Form1..controlbox(True)
+gui.SS_Form1..maxbutton(False)
+gui.SS_Form1..minbutton(False)
+gui.SS_Form1..mousepointer(0)
+gui.SS_Form1..moveable(True)
+gui.SS_Form1..sizeable(False)
+gui.SS_Form1..ShowInTaskBar(True)
+gui.SS_Form1..titlebar(True)
+gui.SS_Form1..event(unload,ss_form1_unload)
+gui.SS_Form1.lbl_dtp1_BegDate.create(label,"Beginning Date",True,1800,200,1,100,135,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.dtp1_BegDate.create(datepicker)
+gui.SS_Form1.dtp1_BegDate.visible(True)
+gui.SS_Form1.dtp1_BegDate.size(1800,345)
+gui.SS_Form1.dtp1_BegDate.position(100,335)
+gui.SS_Form1.dtp1_BegDate.enabled(True)
+gui.SS_Form1.dtp1_BegDate.fontname("Arial")
+gui.SS_Form1.lbl_dtp1_BegDate.LabelStretch(True)
+gui.SS_Form1.lbl_dtp1_BegDate.setinternationalid(61200)
+gui.SS_Form1.lbl_dtp2_EndDate.create(label,"Ending Date",True,1800,200,1,1985,135,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.dtp2_EndDate.create(datepicker)
+gui.SS_Form1.dtp2_EndDate.visible(True)
+gui.SS_Form1.dtp2_EndDate.size(1800,345)
+gui.SS_Form1.dtp2_EndDate.position(1985,335)
+gui.SS_Form1.dtp2_EndDate.enabled(True)
+gui.SS_Form1.dtp2_EndDate.fontname("Arial")
+gui.SS_Form1.lbl_dtp2_EndDate.LabelStretch(True)
+gui.SS_Form1.lbl_dtp2_EndDate.setinternationalid(213100)
+gui.SS_Form1.chk1_AllDates.create(checkbox)
+gui.SS_Form1.chk1_AllDates.Caption("All Dates")
+gui.SS_Form1.chk1_AllDates.visible(True)
+gui.SS_Form1.chk1_AllDates.size(1800,300)
+gui.SS_Form1.chk1_AllDates.position(100,685)
+gui.SS_Form1.chk1_AllDates.enabled(True)
+gui.SS_Form1.chk1_AllDates.fontname("Arial")
+gui.SS_Form1.chk1_AllDates.fontsize(8)
+gui.SS_Form1.chk1_AllDates.setinternationalid(19700)
+gui.SS_Form1.chk1_AllDates.event(click,chk1_alldates_click)
+gui.SS_Form1.lbl_txt1_Currency.create(label,"Currency Code",True,1800,200,1,100,1235,True,0,Arial,8,-2147483633,0)
+gui.SS_Form1.lbl_txt1_Currency.LabelStretch(True)
+gui.SS_Form1.lbl_txt1_Currency.setinternationalid(148205)
+gui.SS_Form1.txt1_Currency.create(textbox,"",True,1800,330,1,100,1435,True,0,Arial,8,16777215,1)
+Gui.SS_Form1.cmd_txt1_Currency.create(button)
+gui.SS_Form1.cmd_txt1_Currency.Caption("^")
+gui.SS_Form1.cmd_txt1_Currency.visible(True)
+gui.SS_Form1.cmd_txt1_Currency.size(330,330)
+gui.SS_Form1.cmd_txt1_Currency.position(1985,1435)
+gui.SS_Form1.cmd_txt1_Currency.enabled(True)
+gui.SS_Form1.cmd_txt1_Currency.fontname("Arial")
+gui.SS_Form1.cmd_txt1_Currency.fontsize(8)
+gui.SS_Form1.cmd_txt1_Currency.event(click,cmd_txt1_currency_click)
+gui.SS_Form1.cmd1_Print.create(button)
+gui.SS_Form1.cmd1_Print.Caption("Print")
+gui.SS_Form1.cmd1_Print.visible(True)
+gui.SS_Form1.cmd1_Print.size(1000,360)
+gui.SS_Form1.cmd1_Print.position(100,1850)
+gui.SS_Form1.cmd1_Print.enabled(True)
+gui.SS_Form1.cmd1_Print.fontname("Arial")
+gui.SS_Form1.cmd1_Print.fontsize(8)
+gui.SS_Form1.cmd1_Print.setinternationalid(452800)
+gui.SS_Form1.cmd1_Print.event(click,cmd1_print_click)
+gui.SS_Form1.dtp1_BegDate.tabstop(true)
+gui.SS_Form1.dtp1_BegDate.tabindex(1)
+gui.SS_Form1.dtp2_EndDate.tabstop(true)
+gui.SS_Form1.dtp2_EndDate.tabindex(2)
+gui.SS_Form1.txt1_Currency.tabstop(true)
+gui.SS_Form1.txt1_Currency.tabindex(3)
+gui.SS_Form1.cmd_txt1_Currency.tabstop(true)
+gui.SS_Form1.cmd_txt1_Currency.tabindex(4)
+
+
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Variable.Global.lBIRunID.Declare(Long,0)
+Variable.Global.lLogID.Declare(Long,0)
+Variable.UDT.uVend.Define("lBIRunID",Long)
+Variable.UDT.uVend.Define("sVendor",String,"Vendor")
+Variable.UDT.uVend.Define("sName_Vendor_Pay",String,"Name_Vendor_Pay")
+Variable.UDT.uVend.Define("sInvoice",String,"Invoice")
+Variable.UDT.uVend.Define("sBatch_Num",String,"Batch_Num")
+Variable.UDT.uVend.Define("fDiscount_Invoice",Float,"Discount_Invoice")
+Variable.UDT.uVend.Define("fExchange_Amt",Float,"Exchange_Amt")
+Variable.UDT.uVend.Define("sExchange_Curr",String,"Exchange_Curr")
+Variable.UDT.uVend.Define("fExchange_Rate",Float,"Exchange_Rate")
+Variable.UDT.uVend.Define("sFlag_Pay_Select",String,"Flag_Pay_Select")
+Variable.UDT.uVend.Define("sJob",String,"Job")
+Variable.UDT.uVend.Define("sVoucher",String,"Voucher")
+Variable.UDT.uVend.Define("sBatch_Code",String,"Batch_Code")
+Variable.UDT.uVend.Define("fAmt_Transaction",Float,"Amt_Transaction")
+Variable.UDT.uVend.Define("fAmt_Invoice",Float,"Amt_Invoice")
+Variable.UDT.uVend.Define("fDate_Invoice_Due_J",Float,"Date_Invoice_Due_J")
+Variable.UDT.uVend.Define("dDate_Invoice_Due",Date,"Date_Invoice_Due")
+Variable.uGlobal.uVend.Declare("uVend")
+Variable.Global.sDateSelection.Declare(String)
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+' Project start date 7/7/2015
+'Coded by RKing
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+
+'open connection
+F.ODBC.connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.puser,V.Ambient.PPass)
+gui.SS_Form1..applytranslation
+
+V.Local.sSql.Set("Select Text1 From V_Op_Header where ID  = 0 and Sequence = 0")
+F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",V.Local.sSql)
+Gui.SS_Form1.txt1_Currency.Text(V.ODBC.conx!rst.FieldVal!Text1)
+F.ODBC.conx!rst.Close
+
+Gui.SS_Form1..show
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+program.sub.chk1_alldates_click.start
+F.Intrinsic.Control.SetErrorHandler("chk1_alldates_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.Intrinsic.Control.If(V.Screen.SS_Form1!chk1_AllDates.Value,=,1)
+	'disable entry of Date range
+	Gui.SS_Form1.dtp1_BegDate.Enabled(False)
+	Gui.SS_Form1.dtp2_EndDate.Enabled(False)
+
+F.Intrinsic.Control.Else
+	'enable entry of Date range
+	Gui.SS_Form1.dtp1_BegDate.Enabled(True)
+	Gui.SS_Form1.dtp2_EndDate.Enabled(True)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("chk1_alldates_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.chk1_alldates_click.End
+
+program.sub.cmd1_print_click.start
+F.Intrinsic.Control.SetErrorHandler("cmd1_print_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.sDate1.Declare(String)
+V.Local.sDate2.Declare(String)
+V.Local.sCurr.Declare(String)
+
+F.Intrinsic.Control.If(V.Screen.SS_Form1!txt1_Currency.Text,=,"")
+	F.Intrinsic.UI.Msgbox("Select a Currency")
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+'Disappear the screen
+Gui.SS_Form1..Visible(False)
+
+F.Global.BI.GetRunID(V.Global.lBIRunID)
+F.Intrinsic.Control.If(V.Ambient.IsInIDE,=,True)
+        F.Global.BI.StartLogging(V.Global.lBIRunID,0,0,"",V.Global.lLogID)
+F.Intrinsic.Control.Else
+       F.Global.BI.StartLogging(V.Global.lBIRunID,-1,-1,"",V.Global.lLogID)
+F.Intrinsic.Control.EndIf
+
+V.uGlobal.uVend.Redim(-1,-1)
+
+V.Local.sDate1.Set(V.Screen.SS_Form1!dtp1_BegDate.Value)
+V.Local.sDate2.Set(V.Screen.SS_Form1!dtp2_EndDate.Value)
+F.Intrinsic.String.Build("{0} - {1}",V.Local.sDate1,V.Local.sDate2,V.Global.sDateSelection)
+V.Local.sCurr.Set(V.Screen.SS_Form1!txt1_Currency.Text)
+
+F.Intrinsic.Control.If(V.Screen.SS_Form1!chk1_AllDates.Value,=,1)
+
+	F.Intrinsic.String.Build("Select a.Vendor, Name_Vendor_Pay, Invoice, Batch_Num, Batch_Code, Amt_Invoice, Date_Invoice_Due, Date_Invoice_Due_J, Discount_Invoice, Job, Voucher, Amt_Transaction, Flag_Pay_Select, Exchange_Curr, Exchange_Rate, Exchange_Amt","",V.Local.sSql)
+	F.Intrinsic.String.Build("{0} From V_Ap_Open_Items a Left Join V_Vendor_Pay_To b on a.Vendor = b.Vendor Where ((Exchange_Curr = '{1}' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '$') and  (Exchange_Curr = '{1}' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '*'))",V.Local.sSql,V.Local.sCurr.Trim,V.Local.sSql)
+        F.Intrinsic.String.Build("{0} or ((Exchange_Curr = ' ' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '$') and  (Exchange_Curr = ' ' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '*')) Order By a.Vendor",V.Local.sSql,V.Local.sSql)
+
+	'save records to recordset
+	F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstVend",V.Local.sSql)
+	F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstVend","V.uGlobal.uVend",False,0)
+	F.ODBC.conx!rstVend.Close
+
+F.Intrinsic.Control.Else
+
+	F.Intrinsic.String.Build("Select a.Vendor, Name_Vendor_Pay, Invoice, Batch_Num, Batch_Code, Amt_Invoice, Date_Invoice_Due, Date_Invoice_Due_J, Discount_Invoice, Job, Voucher, Amt_Transaction, Flag_Pay_Select, Exchange_Curr, Exchange_Rate, Exchange_Amt","",V.Local.sSql)
+	F.Intrinsic.String.Build("{0} From V_Ap_Open_Items a Left Join V_Vendor_Pay_To b on a.Vendor = b.Vendor Where ((Date_Invoice_Due between '{1}' and '{2}' and Exchange_Curr = '{3}' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '$') and  (Date_Invoice_Due between '{1}' and '{2}' and Exchange_Curr = '{3}' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '*'))",V.Local.sSql,V.Local.sDate1.PervasiveDate,V.Local.sDate2.PervasiveDate,V.Local.sCurr.Trim,V.Local.sSql)
+	F.Intrinsic.String.Build("{0} or ((Date_Invoice_Due between '{1}' and '{2}' and Exchange_Curr = ' ' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '$') and  (Date_Invoice_Due between '{1}' and '{2}' and Exchange_Curr = ' ' and Batch_Code between '10' and '13' and Flag_Pay_Select <> '*')) Order By a.Vendor",V.Local.sSql,V.Local.sDate1.PervasiveDate,V.Local.sDate2.PervasiveDate,V.Local.sSql)
+	'save records to recordset
+	F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstVend",V.Local.sSql)
+	F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstVend","V.uGlobal.uVend",False,0)
+	F.ODBC.conx!rstVend.Close
+
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uVend.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uVend!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uVend!lBIRunID,"BIRunID")
+F.Intrinsic.Control.EndIf
+
+'open z table
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstZVend","GCG_4229_OPEN_PYMNTS")
+	F.Intrinsic.Control.If(V.uGlobal.uVend.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstZVend","V.uGlobal.uVend")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstZVend.Close
+
+F.Global.BI.StopLogging(V.Global.lLogID)
+
+F.Intrinsic.Control.CallSub(Callbi)
+
+F.Intrinsic.Control.CallSub(Ss_form1_unload)
+
+F.Intrinsic.Control.Label("cmd1_print_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmd1_print_click.End
+
+program.sub.ss_form1_unload.start
+F.Intrinsic.Control.SetErrorHandler("ss_form1_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'closing connection
+F.ODBC.Connection!conx.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ss_form1_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.ss_form1_unload.End
+
+Program.Sub.CallBI.Start
+F.Intrinsic.Control.SetErrorHandler("CallBI_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sValues.Declare(String)
+V.Local.sParams.Declare(String)
+V.Local.iRet.Declare(Long)
+
+V.Local.sParams.Set("AllDates*!*DateSelection*!*Currency")
+F.Intrinsic.String.Build("{0}*!*{1}*!*{2}",V.Screen.SS_Form1!chk1_AllDates.Value,V.Global.sDateSelection,V.Screen.SS_Form1!txt1_Currency.Text,V.Local.sValues)
+
+F.Global.BI.RunReportPreProcessor(V.Global.lBIRunID,V.Global.lLogID,V.Local.sParams,V.Local.sValues,"",-1,True,"",-1,"",-1,"","",V.Local.iRet)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("CallBI_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.CallBI.End
+
+program.sub.cmd_txt1_currency_click.start
+F.Intrinsic.Control.SetErrorHandler("cmd_txt1_currency_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.sTitles.Declare(String)
+V.Local.sWidths.Declare(String)
+V.Local.sRet.Declare(String)
+
+V.Local.sSql.Set("Select distinct a.Iso_Code, Country, description From company_currency a, v_exchange_currency b where a.iso_code = b.iso_code Order by a.iso_code")
+
+F.Intrinsic.String.Split("Iso_Code*!*Country*!*Currency","*!*",V.Local.sTitles)
+F.Intrinsic.String.Split("800*!*1500*!*1500","*!*",V.Local.sWidths)
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+
+'Opening browser for beginning description
+F.Intrinsic.UI.Browser("Select Curency","conx",V.Local.sSql,V.Local.sTitles,V.Local.sWidths,7000,8000,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.SS_Form1.txt1_Currency.Text(V.Local.sRet.Trim)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("cmd_txt1_currency_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4229_OPEN_PAYMENTS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+program.sub.cmd_txt1_currency_click.End
+
+Program.Sub.Comments.Start
+${$0$}$BIR_AP_OPEN_PAYMENTS$}$RLK$}$7/7/2015$}$False
+${$3$}$0$}$$}$-1$}$-1$}$$}$1/1/1900$}$'Project Start Date 7/7/2015
+
+Overview
+This report shows open invoices by due date. Once this option is selected, the system will ask for a range of due dates for the report. Enter a range of due dates.
+
+Coded by RKing
+Program.Sub.Comments.End
+
+Program.Sub.ScreenSS.Start
+SS_Form1{{CAPTION::Open Payments by Name
+SS_Form1.CTRL{{NAME::dtp1_BegDate\\TYPE::6\\CAPTION::Beginning Date\\TABSTOP::1\\GROUP::1\\BROWSER::0\\INTL::61200\\SIZE::1
+SS_Form1.CTRL{{NAME::dtp2_EndDate\\TYPE::6\\CAPTION::Ending Date\\TABSTOP::2\\GROUP::1\\BROWSER::0\\INTL::213100\\SIZE::1
+SS_Form1.CTRL{{NAME::chk1_AllDates\\TYPE::9\\CAPTION::All Dates\\GROUP::-1\\SUBGROUP::1\\BROWSER::0\\INTL::19700\\SIZE::1
+SS_Form1.CTRL{{NAME::txt1_Currency\\TYPE::2\\CAPTION::Currency Code\\TABSTOP::3\\GROUP::-1\\BROWSER::1\\INTL::148205\\SIZE::1
+SS_Form1.CTRL{{NAME::cmd1_Print\\TYPE::5\\CAPTION::Print\\GROUP::-1\\BROWSER::0\\INTL::452800\\SIZE::1
+
+Program.Sub.ScreenSS.End
+
